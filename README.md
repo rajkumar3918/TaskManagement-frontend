@@ -29,6 +29,8 @@
    - Sharing Tasks/Lists
    - Collaborative Editing
 
+6. Test Cases
+   -Login credentials
 
 
 ## Getting Started
@@ -66,5 +68,15 @@ Allowing users to delete tasks.
 
 ### Collaborative Editing
 Users able to edit tasks created by others users 
+
+
+## Test cases for login
+### test case 1
+email : luckylokesh@gmail.com
+password : 007007007
+
+### test case 2
+email : rajkumarpinakana3@gmail.com
+password 391839183918
 
 
