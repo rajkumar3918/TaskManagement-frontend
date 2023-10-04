@@ -20,7 +20,7 @@ const Register = ()=>{
 
         try {
             const {username, email, password} = data
-            const postUser = await axios.post("https://taskmanagementapi-9do0.onrender.com/register",{
+            const postUser = await axios.post("https://taskmanagementapi-9do0.onrender.com/users/register",{
                 username, email, password
             })
             console.log(postUser);
