@@ -13,7 +13,7 @@ const TasksSection = (prop)=>{
     const taskData = useSelector(state=>state.Taskget.value);
     const dispatch = useDispatch();
     const [details,setDetails] = useState({})
-    const [done, setDone]=useState(false);
+    const [load, setLoad]=useState(false);
     const formRef = useRef();
     const [show, setShow] = useState(false);
 
@@ -25,6 +25,8 @@ const TasksSection = (prop)=>{
         return
     };
     const fetchUpdate = async(e)=>{
+        e.preventDefault();
+        setLoad(true)
         const data = {
             taskId: details._id,
             title: formRef.current.title.value,
@@ -32,7 +34,14 @@ const TasksSection = (prop)=>{
         }
         try {
             const {taskId, title, description} = data
-            return await axios.patch("https://taskmanagementapi-9do0.onrender.com/tasks/updateTask",{taskId, title, description})
+            await axios.patch("https://taskmanagementapi-9do0.onrender.com/tasks/updateTask",{taskId, title, description})
+            await dispatch(fetchTasks());
+            setLoad(false);
+            formRef.current.title.value = "";
+            formRef.current.desc.value="";
+            setShow(false);
+            
+            return;
         } catch (error) {
             console.log(error);
         }
@@ -60,7 +69,7 @@ const TasksSection = (prop)=>{
         try {
             const {taskId, status} = data;
             await axios.patch("https://taskmanagementapi-9do0.onrender.com/tasks/completeTask",{taskId, status})
-           dispatch(fetchTasks());
+            await dispatch(fetchTasks());
            return
         } catch (error) {
             console.log(error.message)
@@ -70,7 +79,7 @@ const TasksSection = (prop)=>{
     return(
         <div>
             <div className="taskForm-cont" style={show? {right:"0px"}:{right:"-340px"}}>
-                <TaskForm setPass={setShow} submit={fetchUpdate} passRef={formRef} title="Edit Task" edit="Edit"/>
+                <TaskForm setPass={setShow} submit={fetchUpdate} passRef={formRef} pass={load} title="Edit Task" edit="Edit"/>
             </div>
             <div className="task-cont" ref={prop.pass}>
                         {taskData.data && taskData.data.map((e)=>{

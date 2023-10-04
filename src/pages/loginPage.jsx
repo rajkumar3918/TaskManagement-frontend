@@ -2,15 +2,18 @@ import React, { useRef, useState} from "react";
 import "../styles/register.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loading from "../components/loader";
 
 
 const Signin = ()=>{
     const formRef = useRef();
     const navigate = useNavigate();
     const [err, setErr] = useState(false);
+    const [load, setLoad] = useState(false);
     
     const submitHandler = async(e)=>{
         e.preventDefault();
+        setLoad(true);
         const data = {
             email: formRef.current.email.value,
             password: formRef.current.password.value,
@@ -24,7 +27,10 @@ const Signin = ()=>{
             const res = loginFetch.data
             const userDetails = JSON.stringify(res)
             sessionStorage.setItem("userData", userDetails);
-            if(typeof(res) == typeof({})) navigate("/home") 
+            if(typeof(res) == typeof({})){
+                setLoad(false)
+                navigate("/home") 
+            }
             else setErr(true);
             
         } catch (error) {
@@ -50,7 +56,7 @@ const Signin = ()=>{
                 <label htmlFor="password">Password</label>
                 <input name="password" type="password" placeholder="Password" required/>
                 <p style={err?{display:"block",color:"red"}:{display:"none"}}>Somthing went wrong</p>
-                <button type="submit">Sign in</button>
+                <button type="submit">{load? <Loading/>:"Sign in"}</button>
             </form>
 
             <p>Don't have an account? <a style={{color:"blue"}} onClick={()=>navigate("/register")}>Register</a></p>

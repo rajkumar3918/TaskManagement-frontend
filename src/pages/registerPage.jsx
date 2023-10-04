@@ -2,12 +2,16 @@ import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router";
 import "../styles/register.scss";
 import axios from "axios";
+import Loading from "../components/loader";
 
 const Register = ()=>{
     const formRef = useRef();
     const navigate = useNavigate();
+    const [load, setLoad] = useState(false);
+
     const submitHandler = async (e)=>{
         e.preventDefault();
+        setLoad(true)
         const data = {
             username: formRef.current.userName.value,
             email:formRef.current.email.value,
@@ -21,6 +25,7 @@ const Register = ()=>{
             })
             console.log(postUser);
             navigate("/")
+            setLoad(false);
             return postUser;
         } catch (error) {
             console.log(error.message);
@@ -46,7 +51,7 @@ const Register = ()=>{
                 <input name="email" type="email" placeholder="Ex: abc@gmail.com" required/>
                 <label htmlFor="password">Password</label>
                 <input name="password" type="password" placeholder="Password" required/>
-                <button type="submit">Submit</button>
+                <button type="submit">{load? <Loading/>:"Submit"}</button>
             </form>
             <p>Do you have an account? <a style={{color:"blue"}} onClick={()=>navigate("/")}>Sign in</a></p>
            
