@@ -64,7 +64,6 @@ Allowing users to edit task details.
 Allowing users to mark tasks as complete.
 Allowing users to delete tasks.
 
-## User Collaboration
 ### Collaborative Editing
 Users able to edit tasks created by others users 
 
